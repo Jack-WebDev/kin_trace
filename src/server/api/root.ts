@@ -11,7 +11,7 @@ import { activityRouter } from "./routers/activity";
 import { notificationRouter } from "./routers/notification";
 
 export const appRouter = createRouter({
-  auth: authRouter,
+  auths: authRouter,
   user: userRouter,
   client: clientRouter,
   beneficiary: beneficiaryRouter,

@@ -2,109 +2,239 @@
 @tailwind components;
 @tailwind utilities;
  
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
- 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
- 
-    --primary: 247 56.6% 58.43%;
-    --primaryHover: 231.04 71.28% 63.14%;
-    --primarySuperLight: 250 54.55% 95.69%;
-    --bgLight: 0 0% 94.12%;
-    --danger: 359.62 90.75% 66.08%;
-    --dangerHover: 6.28 100% 37.45%;
-    --sideBarBg: 210 10.34% 22.75%;
-    --borderColor: 0 0% 85.88%;
-    --primaryBg: 0 0% 100%;
-    --inputBg: 0 0% 100%;
-    --grayBg: 0 0% 43.14%;
-    --secondaryBg: 0 0% 94.12%;
-    --success: 162.06 45.54% 41.76%;
-    --successTint: 161.79 45.53% 51.76%;
-    --textColor: 0 0% 0%;
-    --textColorLight: 0 0% 46.67%;
-    --textColorExtraLight: 261 12.2% 67.84%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 42.18 99.17% 47.25%;
-    --secondaryHover: 30.33 100% 63.92%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
- 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
- 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
- 
-    --radius: 0.5rem;
-  }
- 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
- 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
- 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
- 
-    --primary: 247 56.6% 58.43%;
-    --primaryHover: 231.04 71.28% 63.14%;
-    --primarySuperLight: 250 54.55% 95.69%;
-    --danger: 359.62 90.75% 66.08%;
-    --dangerHover: 6.28 100% 37.45%;
-    --sideBarBg: 210 10.34% 22.75%;
-    --primaryBg: 210 10.34% 22.75%;
-    --borderColor: 215 13.79% 34.12%;
-    --grayBg: 0 0% 43.14%;
-    --secondaryBg: 0 0% 9.8%;
-    --inputBg: 240 16.36% 21.57%;
-    --success: 162.06 45.54% 41.76%;
-    --successTint: 161.79 45.53% 51.76%;
-    --textColor: 0 0% 100%;
-    --textColorLight: 208.24 7.3% 45.69%;
-    --textColorExtraLight: 260.87 12.43% 63.73%;
-    --primary-foreground: 222.2 47.4% 11.2%;
- 
-    --secondary: 42.18 99.17% 47.25%;
-    --secondary-foreground: 210 40% 98%;
- 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
- 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-  }
+:root {
+  --primary-color: #dda83a;
+  --secondary-color: #015a4a;
 }
- 
-@layer base {
-  * {
-    @apply border-border;
+
+.light-mode {
+  background-color: white;
+  color: black;
+}
+
+.dark-mode {
+  background-color: #16151c;
+  color: white;
+}
+
+.link:hover {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.link.active {
+  color: var(--primary-color);
+  font-weight: 600;
+  border: none;
+  border-left: 3px solid var(--primary-color);
+  background-color: rgba(114, 82, 243, 0.05);
+  padding: 10px 20px;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.side_menu {
+  grid-template-rows: 0.3fr 1fr;
+  /* color: #f7fafb; */
+}
+
+.logo {
+  position: absolute;
+  top: 1rem;
+  left: 7rem;
+}
+
+@media screen and (min-width: 768px) {
+  .logo {
+    left: 2rem;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+  
+}
+
+.form_img {
+  width: 100%;
+}
+
+.tabs__header {
+  background-color: rgba(221, 167, 58, 0.3);
+  border-radius: 3rem;
+}
+
+.tabs__header .login_tab[data-state="active"],
+.tabs__header .register_tab[data-state="active"] {
+  border: none;
+  background-color: var(--primary-color);
+  border-radius: 4rem;
+  color: #fff;
+}
+
+.login_btn,
+.register_btn {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+
+.form__container {
+  border: 2px solid var(--primary-color);
+  border-radius: 20px;
+  padding: 2.5rem;
+  background-color: #fafafa;
+}
+
+input {
+  border-radius: 2rem;
+}
+
+.filter_input {
+  border: 1px solid #000;
+}
+
+.left__column {
+  width: 50%;
+}
+
+.date-range-selector {
+  display: flex;
+  justify-content: center;
+}
+
+.date-range-selector button span::before {
+  border-color: var(--primary-color);
+}
+
+.react-datepicker__month-container
+  .react-datepicker__month
+  .react-datepicker__week
+  .react-datepicker__day--keyboard-selected {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.react-datepicker__month-container
+  .react-datepicker__month
+  .react-datepicker__week
+  .react-datepicker__day--in-range {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+
+div[role="dialog"] {
+  background-color: white;
+  border-radius: 10px;
+}
+
+select {
+  width: 14vw;
+  border: 1px solid;
+  border-radius: 10px;
+  padding-inline: 10px;
+  height: 120%;
+}
+
+.project_dropdown {
+  width: 13%;
+}
+
+.task_input {
+  width: 15%;
+}
+
+.task_input:focus {
+  border: none;
+  outline: 2px solid var(--primary-color);
+}
+
+.hour_input:focus {
+  border: none;
+  outline: 2px solid var(--primary-color);
+}
+
+.project-card {
+  width: 90%;
+}
+
+.background__image {
+  color: transparent;
+  width: 50%;
+  position: absolute;
+  top: 15%;
+  left: 37%;
+  z-index: -4;
+  filter: opacity(0.2);
+}
+
+.active_tab {
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.active_side-tab {
+  background-color: var(--primary-color);
+  color: white;
+  width: 100%;
+  /* border-radius: 1rem; */
+}
+
+.active_side-tab:first-child {
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+
+.active_side-tab:last-child {
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+.borderStyle:last-child {
+  padding-block-start: 3px;
+}
+
+.borderStyle:not(:last-child) {
+  padding-block-end: 3px;
+}
+
+.custom-class > *[data-ut-element="button"][data-state="uploading"] {
+  background-color: var(--primary-color);
+  color: white;
+  cursor: not-allowed;
+}
+
+/* applied to the upload indicator when uploading */
+.custom-class > *[data-ut-element="button"][data-state="uploading"]::after {
+  background-color: var(--secondary-color);
+}
+
+.custom-radio-input {
+  appearance: none; /* Remove default appearance */
+  width: 18px;
+  height: 18px;
+  border: 2px solid #666; /* Border color */
+  border-radius: 50%; /* Circle shape */
+  position: relative;
+  cursor: pointer;
+}
+
+/* Custom circle inside the radio */
+.custom-radio-input::after {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary-color); /* Circle color */
+  border-radius: 50%; /* Circle shape */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0; /* Hide initially */
+}
+
+/* Show the inner circle when the radio is checked */
+.custom-radio-input:checked::after {
+  opacity: 1;
 }
 
 /* For Webkit-based browsers (Chrome, Safari and Opera) */

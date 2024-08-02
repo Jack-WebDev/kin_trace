@@ -9,24 +9,37 @@ import { FormInput } from "@/packages/ui";
 import Link from "next/link";
 import { clientApi } from "@/client/react";
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+const registerSchema = z.object({
+  email: z
+    .string()
+    .email()
+    .refine((email) => email.endsWith("@ndt.co.za"), {
+      message: "Email must be a valid NDT email",
+    }),
+  password: z
+    .string()
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+      {
+        message:
+          "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      },
+    ),
 });
 
-type LoginSchemaType = z.infer<typeof loginSchema>;
+type registerSchemaType = z.infer<typeof registerSchema>;
 
-export function LoginForm() {
+export function RegisterForm() {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { toast } = useToast();
 
-  const form = useForm<LoginSchemaType>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<registerSchemaType>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {},
   });
 
-  const loginMutation = clientApi.auths.login.useMutation({
+  const registerMutation = clientApi.auths.register.useMutation({
     onSuccess: (data) => {
       setSuccessMessage(data.message);
       location.reload();
@@ -41,11 +54,11 @@ export function LoginForm() {
     },
   });
 
-  async function onSubmit(values: LoginSchemaType) {
+  async function onSubmit(values: registerSchemaType) {
     setSuccessMessage("");
     setErrorMessage("");
 
-    loginMutation.mutate(values);
+    registerMutation.mutate(values);
   }
 
   return (
@@ -67,15 +80,17 @@ export function LoginForm() {
           fullWidth={true}
           type="password"
         />
-        <Link href={"/forgot-password"} className="relative top-[5px] left-[5.5rem] md:left-[11rem] text-[#dda83a] font-semibold text-sm">Forgot Password?</Link>
 
-
-        {loginMutation.isPending? (
+        {registerMutation.isPending ? (
           <Loader />
         ) : (
-          <Button type="submit" className="login_btn w-full hover:bg-[#dda83a]">
-          Let Me In
-        </Button>
+          <Button
+          variant={"primary"}
+            type="submit"
+            className="register_btn w-full hover:bg-[#dda83a]"
+          >
+            Let&apos;s Go!
+          </Button>
         )}
         <ResponseMessage
           errorMessage={errorMessage}
