@@ -1,0 +1,73 @@
+name: Pull Request Tests
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - testing
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: kin-trace_dev
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+            **/.cache
+          key: yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            yarn-
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Generate Prisma Client
+        run: yarn prisma generate
+
+      - name: Apply Prisma Migrations
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/kin-trace_dev
+        run: yarn prisma migrate deploy
+
+      - name: Run Tests
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/kin-trace_dev
+        run: yarn test
+
+      - name: Lint code
+        run: yarn lint
+
+      - name: Check TypeScript types
+        run: yarn typecheck
+
+      - name: Build project
+        run: yarn build
