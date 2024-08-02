@@ -26,7 +26,7 @@ export function LoginForm() {
     defaultValues: {},
   });
 
-  const loginMutation = clientApi.auth.login.useMutation({
+  const loginMutation = clientApi.auths.login.useMutation({
     onSuccess: (data) => {
       setSuccessMessage(data.message);
       location.reload();

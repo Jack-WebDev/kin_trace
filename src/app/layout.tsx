@@ -16,10 +16,10 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-	title: "New Dawn 360 | New Dawn Technologies",
-	icons: {
-		icon: "/ndt-technologies-web-logo.svg",
-	},
+  title: "New Dawn 360 | New Dawn Technologies",
+  icons: {
+    icon: "/ndt-technologies-web-logo.svg",
+  },
 };
 export default function RootLayout({
   children,
@@ -53,14 +53,7 @@ async function Content({ children }: any) {
   const auth = await getAuth();
 
   if (!auth) {
-    return (
-      <TRPCReactProvider>
-        <div className="relative h-full min-w-full overflow-y-auto bg-secondaryBg p-0">
-          {" "}
-          {children}
-        </div>
-      </TRPCReactProvider>
-    );
+    return <TRPCReactProvider>{children}</TRPCReactProvider>;
   }
 
   return (

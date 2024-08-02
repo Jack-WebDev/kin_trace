@@ -51,7 +51,7 @@ export function FormInput(props: FormInputProps) {
           <Input
             type={type ? type : "text"}
             contentEditable="true"
-            className="rounded-xl hover:border-primary"
+            className="rounded-xl hover:border-primary border border-gray-100"
             placeholder={placeholder ? placeholder : ""}
             disabled={disabled ? true : false}
             {...field}

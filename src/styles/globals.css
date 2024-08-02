@@ -35,6 +35,7 @@
 
 .side_menu {
   grid-template-rows: 0.3fr 1fr;
+  /* color: #f7fafb; */
 }
 
 .logo {

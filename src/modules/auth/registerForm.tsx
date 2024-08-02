@@ -39,7 +39,7 @@ export function RegisterForm() {
     defaultValues: {},
   });
 
-  const registerMutation = clientApi.auth.register.useMutation({
+  const registerMutation = clientApi.auths.register.useMutation({
     onSuccess: (data) => {
       setSuccessMessage(data.message);
       location.reload();

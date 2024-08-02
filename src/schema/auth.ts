@@ -36,6 +36,17 @@ export const registerSchema = object({
   ),
 });
 
+export const forgotPasswordSchema = object({
+  email: string({
+    required_error: "Email is required",
+    invalid_type_error: "Invalid email",
+  })
+    .email({ message: "Invalid email" })
+    .refine((email) => email.endsWith("@ndt.co.za"), {
+      message: "Email must be a valid NDT email",
+    }),
+});
+
 export const logoutSchema = object({
   userId: string({
     required_error: "UserId is required.",
