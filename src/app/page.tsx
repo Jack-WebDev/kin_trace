@@ -9,14 +9,14 @@ import Image from "next/image";
 const Home = () => {
 	return (
 		<>
-			<div className={`userAuth h-screen flex items-center justify-around`}>
+			<div className={`userAuth h-screen flex flex-col items-center justify-center md:justify-around md:flex-row`}>
 				<div className="left__column text-center">
 					<Image
 						src={"/6974855_4380.jpg"}
 						alt=""
 						width={500}
 						height={500}
-						className="form_img"
+						className="form_img hidden md:inline-block"
 						style={{ width: "100%", height: "auto" }}
 					/>
 				</div>
@@ -33,11 +33,11 @@ const Home = () => {
 						<h1 className="text-[2rem] mt-8 text-[#015a4a] font-semibold">
 							New Dawn <span className="text-[#dda83a]">360</span>
 						</h1>
-						<p className="text-[#015a4a] font-medium">
+						<p className="text-[#015a4a] font-medium text-center">
 							Your Time, Our Commitment, Streamlined Together.
 						</p>
 					</div>
-					<Tabs defaultValue="login" className="form__container w-[400px]">
+					<Tabs defaultValue="login" className="form__container w-[300px] mx-auto md:w-[400px]">
 						<TabsList className="tabs__header mb-8">
 							<TabsTrigger value="login" className="login_tab">
 								Login

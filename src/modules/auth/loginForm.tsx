@@ -67,7 +67,7 @@ export function LoginForm() {
           fullWidth={true}
           type="password"
         />
-        <Link href={"/forgot-password"} className="relative top-[5px] left-[11rem] text-[#dda83a] font-semibold text-sm">Forgot Password?</Link>
+        <Link href={"/forgot-password"} className="relative top-[5px] left-[5.5rem] md:left-[11rem] text-[#dda83a] font-semibold text-sm">Forgot Password?</Link>
 
 
         {loginMutation.isPending? (
