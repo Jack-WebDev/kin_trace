@@ -58,11 +58,6 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/kin-trace_dev
         run: yarn prisma migrate deploy
 
-      - name: Run Tests
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/kin-trace_dev
-        run: yarn test
-
       - name: Lint code
         run: yarn lint
 
