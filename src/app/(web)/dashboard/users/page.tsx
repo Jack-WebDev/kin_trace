@@ -15,12 +15,12 @@ const Page = async () => {
         <PageHeader header={false} title="User list" Icon={User2} />
         <UserActions action="create" />
       </div>
-      <DataTable
+      {/* <DataTable
         columns={userColumns}
         data={users}
         searchColumn="surname"
         search={true}
-      />
+      /> */}
     </div>
   );
 };

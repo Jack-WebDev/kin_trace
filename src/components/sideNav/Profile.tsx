@@ -34,10 +34,10 @@ export const Profile = () => {
           <div className="flex w-full cursor-pointer items-center  gap-3 rounded-lg bg-transparent p-4 px-3 shadow-lg md:bg-primary/20 md:dark:bg-secondaryBg/50 ">
             <div className="flex flex-col items-center gap-x-4 gap-y-2 md:flex-row ">
               <Avatar>
-                <AvatarImage
+                {/* <AvatarImage
                   src={userProfile?.image ? userProfile?.image : ""}
                   className="object-cover"
-                />
+                /> */}
                 <AvatarFallback className="bg-gray-200 p-4 text-black dark:bg-[#252729] dark:text-gray-400">
                   {avatarFallBack ?? "U"}
                 </AvatarFallback>

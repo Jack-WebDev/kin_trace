@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 const loaderVariants = cva(
-  "animate-spin rounded-full border-b-2 border-blue-500 mx-auto",
+  "animate-spin rounded-full border-b-2 border-[#dda83a] mx-auto",
   {
     variants: {
       size: {

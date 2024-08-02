@@ -8,19 +8,19 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { Toaster } from "@/packages/ui";
 import { TRPCReactProvider } from "@/client/react";
 import { getAuth, type AuthUserType } from "@/context";
-import { UserRole, UserStatus } from "@prisma/client";
+import { Metadata } from "next";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-export const metadata = {
-  title: "KinTrace",
-  description: "Kin trace is an application designed to trace beneficiaries",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+export const metadata: Metadata = {
+  title: "New Dawn 360 | New Dawn Technologies",
+  icons: {
+    icon: "/ndt-technologies-web-logo.svg",
+  },
 };
-
 export default function RootLayout({
   children,
 }: {
@@ -53,14 +53,7 @@ async function Content({ children }: any) {
   const auth = await getAuth();
 
   if (!auth) {
-    return (
-      <TRPCReactProvider>
-        <div className="relative h-full min-w-full overflow-y-auto bg-secondaryBg p-0">
-          {" "}
-          {children}
-        </div>
-      </TRPCReactProvider>
-    );
+    return <TRPCReactProvider>{children}</TRPCReactProvider>;
   }
 
   return (

@@ -3,9 +3,9 @@ import { Badge } from "@/packages/ui";
 import { formatDate } from "@/utils";
 import { Clock1 } from "lucide-react";
 import React from "react";
-import { Activity } from "@prisma/client";
+// import { Activity } from "@prisma/client";
 
-export const Timeline = (props: TimelineProps) => {
+export const Timeline = (props:any) => {
   const { activities } = props;
 
   return activities.length === 0 ? (
@@ -14,7 +14,7 @@ export const Timeline = (props: TimelineProps) => {
     </div>
   ) : (
     <div className='after:top0 relative flex  w-max flex-col py-0 before:content-[""] after:absolute after:bottom-0 after:left-1/2 after:z-10 after:h-full  after:w-1 after:bg-primaryBg'>
-      {activities.map((item, count) => (
+      {/* {activities.map((item, count) => (
         <div
           key={item.id}
           className={
@@ -57,11 +57,11 @@ export const Timeline = (props: TimelineProps) => {
             </p>
           </div>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };
 
-type TimelineProps = {
-  activities: Activity[];
-};
+// type TimelineProps = {
+//   activities: Activity[];
+// };
