@@ -1,0 +1,12 @@
+services:
+
+  db:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5555:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: kin-trace_dev
