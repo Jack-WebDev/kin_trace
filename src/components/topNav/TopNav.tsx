@@ -17,14 +17,14 @@ import {
 import { LinkIconButton } from "../LinkButton";
 import type { NotificationType } from "@/schema";
 import { clientApi } from "@/client/react";
-import { Task } from "@prisma/client";
+// import { Task } from "@prisma/client";
 
 export function TopNav() {
   const pathname = usePathname();
   const pathSegments = pathname.split("/");
   const location = pathSegments[2] ?? pathSegments[1];
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
-  const [tasks, setTasks] = useState<Task[]>([]);
+  // const [tasks, setTasks] = useState<Task[]>([]);
 
   const { data: userProfile, isLoading, error } = clientApi.user.me.useQuery();
 
@@ -52,7 +52,7 @@ export function TopNav() {
                     variant="success"
                     className="absolute right-[-5px] top-[-10px] flex h-4 w-4 items-center justify-center rounded-full p-0 text-xs font-normal"
                   >
-                    {notifications.length + tasks.length}
+                    {/* {notifications.length + tasks.length} */}
                   </Badge>
                 </div>
               </DropdownMenuTrigger>
@@ -69,7 +69,7 @@ export function TopNav() {
                   />
                 </DropdownMenuItem>
 
-                <DropdownMenuItem className="w-full p-0">
+                {/* <DropdownMenuItem className="w-full p-0">
                   <LinkIconButton
                     title="Tasks"
                     link={true}
@@ -79,7 +79,7 @@ export function TopNav() {
                     badgeValue={tasks.length}
                     badgeVariant="tasks"
                   />
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

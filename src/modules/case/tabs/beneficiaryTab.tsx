@@ -14,7 +14,6 @@ import { Badge } from "@/packages/ui";
 import { BeneficiaryActions } from "@/modules/beneficiary";
 import { AuthUserType } from "@/context";
 import { serverApi } from "@/client/server";
-import { TraceStatus } from "@prisma/client";
 
 export const BeneficiaryTab = async (props: BeneficiaryTabProps) => {
   const { beneficiaryId, caseId, auth } = props;
@@ -30,21 +29,11 @@ export const BeneficiaryTab = async (props: BeneficiaryTabProps) => {
           <h1 className="font-semibold text-lg text-textColorLight">
             Beneficiary
           </h1>
-          <Badge
-            variant={
-              beneficiary?.traceStatus === TraceStatus.Untraced
-                ? "secondary"
-                : beneficiary?.traceStatus === TraceStatus.Found
-                  ? "success"
-                  : "danger"
-            }
-          >
-            {beneficiary?.traceStatus}
-          </Badge>
+
         </div>
         {auth.role === "Agent" && (
           <BeneficiaryActions
-            beneficiary={beneficiary!}
+            beneficiary={beneficiary}
             address={address}
             action="update"
             caseId={caseId}
