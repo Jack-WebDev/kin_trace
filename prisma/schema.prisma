@@ -1,9 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
-    binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -12,226 +8,75 @@ datasource db {
 }
 
 model User {
-    id            String     @id @default(uuid())
-    name          String
-    email         String     @unique
-    surname       String
-    password      String
-    role          UserRole   @default(Agent)
-    gender        Gender  @default(Unspecified)
-    status        UserStatus @default(Active)
-    createdAt     DateTime   @default(now())
-    updatedAt     DateTime   @updatedAt
-    phoneVerified Boolean?    @default(false)
-    emailVerified Boolean?    @default(false)
-    contactNumber String     @unique
-    image         String?
-    createdCases    Case[]     @relation("createdBy")
-    supervisedCases Case[]     @relation("supervisor")
-    agentCases      Case[]     @relation("agent")
-    createdTasks    Task[]     @relation("creator")
-    assignedTasks   Task[]     @relation("assignee")
-    locations       Location[]
-    activities      Activity[]
-    notes           Note[]
-    notifications   Notification[]
-}
-
-model Client {
     id             String        @id @default(uuid())
     name           String
-    surname           String
-    employeeNumber String
-    idNumber       String        @unique
-    passportNumber String
-    gender         Gender       @default(Unspecified)
-    country        String        @default("South Africa")
+    surname        String
+    email          String        @unique
+    password       String
+    idNumber       String
+    address        String
+    city           String
+    zipCode        String
+    province       Province      @default(Gauteng)
+    dob            String
+    maritalStatus  MaritalStatus @default(Single)
+    gender         Gender        @default(Non_Binary)
+    ethnicity      Ethnicity     @default(Black)
+    employeeType   EmployeeType  @default(Contract)
+    ndtEmail       String        @unique
+    contactNumber  String        @unique
+    position       String
+    startDate      DateTime
+    officeLocation String
+    role           UserRole      @default(Employee)
+    status         UserStatus    @default(Active)
     createdAt      DateTime      @default(now())
     updatedAt      DateTime      @updatedAt
-    contactNumber1 String
-    contactNumber2 String
-    image          String?
-    beneficiaries  Beneficiary[]
-
-    Case Case[]
 }
 
-model Beneficiary {
-    id            String      @id @default(uuid())
-    clientId      String
-    name          String
-    surname       String
-    idNumber      String
-    contactNumber String
-    traceStatus   TraceStatus @default(Untraced)
-    gpsLocation   String?
-    gender        Gender     @default(Unspecified)
-    image         String?
-    createdAt     DateTime    @default(now())
-    updatedAt     DateTime    @updatedAt
-
-    client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
-    Case   Case[]
+enum Province {
+    EasternCape
+    FreeState
+    Gauteng
+    NorthernCape
+    NorthWest
+    WesternCape
+    Limpopo
+    KwaZuluNatal
+    Mpumalanga
 }
 
-model Address {
-    id            String      @id @default(uuid())
-    refId         String
-    type          AddressType
-    streetAddress String
-    city          String
-    state         String
-    country       String
-    zipCode       String
-    lat           String?
-    long          String?
-    createdAt     DateTime    @default(now())
-    updatedAt     DateTime    @updatedAt
+enum Ethnicity {
+    White
+    Black
+    Coloured
+    Indian
+    Asian
+    Other
 }
 
-model Case {
-    id             String      @id @default(uuid())
-    createdBy      String
-    supervisorId   String
-    caseNumber     String
-    agentId        String
-    clientId       String
-    beneficiaryId  String
-    expectedDateOfCompletion       DateTime
-    status         CaseStatus  @default(Open)
-    city           String
-    completionDate DateTime?
-    traceStatus    TraceStatus @default(Untraced)
-    createdAt      DateTime    @default(now())
-    updatedAt      DateTime    @updatedAt
-
-    supervisor  User        @relation("supervisor", fields: [supervisorId], references: [id])
-    agent       User        @relation("agent", fields: [agentId], references: [id])
-    creator     User        @relation("createdBy", fields: [createdBy], references: [id])
-    client      Client      @relation(fields: [clientId], references: [id])
-    beneficiary Beneficiary @relation(fields: [beneficiaryId], references: [id])
-
-    locations  Location[]
-    activities Activity[]
-    notes      Note[]
-    tasks      Task[]
-    notifications Notification[]
+enum EmployeeType {
+    FullTime
+    PartTime
+    Intern
+    Contract
 }
 
-model Location {
-    id        String   @id @default(uuid())
-    userId    String
-    caseId    String
-    lat       String
-    long      String
-    createdAt DateTime @default(now())
-
-    user User @relation(fields: [userId], references: [id])
-    case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+enum MaritalStatus {
+    Single
+    Married
+    Divorced
 }
-
-model Activity {
-    id           String   @id @default(uuid())
-    userId       String
-    caseId       String
-    activityDesc String
-    createdAt    DateTime @default(now())
-
-    user User @relation(fields: [userId], references: [id])
-    case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
-}
-
-model Task {
-    id          String     @id @default(uuid())
-    createdBy   String
-    assignedTo  String
-    caseId      String
-    taskMessage String
-    status      TaskStatus @default(Open)
-    createdAt   DateTime   @default(now())
-
-    creator User @relation("creator", fields: [createdBy], references: [id])
-    case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
-    assignee User @relation("assignee", fields: [assignedTo], references: [id])
-
-    notes Note[]
-    notifications Notification[]
-}
-
-model Note {
-    id          String     @id @default(uuid())
-    userId   String
-    caseId  String?
-    taskId      String?
-    message  String
-    status      NoteStatus @default(Creted)
-    createdAt   DateTime   @default(now())
-
-    user User? @relation(fields: [userId], references: [id])
-    case Case? @relation(fields: [caseId], references: [id], onDelete: Cascade)
-    task Task? @relation(fields: [taskId], references: [id])
-}
-
-model Notification {
-    id          String     @id @default(uuid())
-    caseId  String?
-    taskId      String?
-    recepientId  String
-    category  NotificationCategory
-    message  String
-    status  NotificationStatus @default(New)
-    createdAt   DateTime   @default(now())
-
-    recepient User @relation(fields: [recepientId], references: [id])
-    case Case? @relation(fields: [caseId], references: [id], onDelete: Cascade)
-    task Task? @relation(fields: [taskId], references: [id])
-}
-
-
-
-enum NotificationCategory {
-    Case
-    Task
-}
-
-
 
 enum NotificationStatus {
     New
     Opened
 }
 
-enum NoteStatus {
-    Creted
-    Opened
-}
-
-enum TaskStatus {
-    Open
-    Closed
-}
-
-enum CaseStatus {
-    Open
-    Closed
-    Submitted
-}
-
-enum AddressType {
-    Postal
-    Physical
-}
-
-enum TraceStatus {
-    Untraced
-    Found
-    NotFound
-}
-
 enum UserRole {
     Admin
-    Agent
-    Supervisor
+    Employee
+    Manager
 }
 
 enum UserStatus {
@@ -242,5 +87,5 @@ enum UserStatus {
 enum Gender {
     Male
     Female
-    Unspecified
+    Non_Binary
 }
