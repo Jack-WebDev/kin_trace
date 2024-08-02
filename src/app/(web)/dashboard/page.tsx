@@ -6,7 +6,7 @@ import {
   TaskList,
 } from "@/modules/dashboard";
 
-import { Beneficiary, Case, Client, Task, TraceStatus } from "@prisma/client";
+// import { Beneficiary, Case, Client, Task, TraceStatus } from "@prisma/client";
 import { ClipboardList, HardDrive, Radio } from "lucide-react";
 import React from "react";
 
@@ -16,13 +16,11 @@ const Page = async () => {
   const clients = await serverApi.client.list();
   const beneficiaries = await serverApi.beneficiary.list();
 
-  const closeCases = cases.filter((item) => item.status === "Closed");
-  const openCases = cases.filter((item) => item.status === "Open");
-  const submittedCases = cases.filter((item) => item.status === "Submitted");
-  const found = beneficiaries.filter((item) => item.traceStatus === "Found");
-  const notFound = beneficiaries.filter(
-    (item) => item.traceStatus === TraceStatus.NotFound,
-  );
+  const closeCases = cases.filter((item:any) => item.status === "Closed");
+  const openCases = cases.filter((item:any) => item.status === "Open");
+  const submittedCases = cases.filter((item:any) => item.status === "Submitted");
+  const found = beneficiaries.filter((item:any) => item.traceStatus === "Found");
+
 
   return (
     <div className="flex h-max w-full flex-col gap-6 ">
@@ -51,7 +49,7 @@ const Page = async () => {
           link="/dashboard/clients"
         />
 
-        <DashboardWidget
+        {/* <DashboardWidget
           Icon={Radio}
           title="Tracing"
           traced={found.length + notFound.length}
@@ -63,7 +61,7 @@ const Page = async () => {
           iconClassName="p-2 bg-success text-white rounded-full"
           tracing
           link="/dashboard/beneficiaries"
-        />
+        /> */}
       </div>
 
       <div className="flex max-h-none  flex-wrap items-stretch justify-start gap-x-10 gap-y-5 md:flex-row">

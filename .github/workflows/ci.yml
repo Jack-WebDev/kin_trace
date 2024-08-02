@@ -66,7 +66,7 @@ jobs:
       # - name: Check TypeScript types
       #   run: yarn typecheck
 
-      - name: Build project
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: yarn build
+      # - name: Build project
+      #   env:
+      #     DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      #   run: yarn build

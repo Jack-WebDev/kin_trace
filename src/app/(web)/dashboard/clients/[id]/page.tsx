@@ -179,13 +179,6 @@ const Page = async (props: PageProps) => {
             />
           </div>
 
-          <div className="flex flex-col flex-wrap justify-start gap-x-10 gap-y-5 md:flex-row">
-           {
-            beneficiaries.map((beneficiary) => (
-              <BeneficiaryCard beneficiary={beneficiary} key={beneficiary.id} />
-            ))
-           }
-          </div>
         </div>
       </div>
     )

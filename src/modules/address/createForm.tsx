@@ -17,7 +17,7 @@ import {
   createAddressSchema,
 } from "@/schema";
 import { clientApi } from "@/client/react";
-import { AddressType } from "@prisma/client";
+// import { AddressType } from "@prisma/client";
 
 export function CreateForm(props: Props) {
   const [errorMessage, setErrorMessage] = useState<string>("");
