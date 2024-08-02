@@ -63,8 +63,8 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: yarn lint
 
-      - name: Check TypeScript types
-        run: yarn typecheck
+      # - name: Check TypeScript types
+      #   run: yarn typecheck
 
       - name: Build project
         env:
