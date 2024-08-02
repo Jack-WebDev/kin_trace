@@ -1,5 +1,5 @@
 import * as argon from "argon2";
-import { loginSchema, logoutSchema } from "@/schema";
+import { loginSchema, registerSchema } from "@/schema";
 import { TRPCError } from "@trpc/server";
 import { signJwt } from "@/packages/utils";
 import { createRouter, protectedProcedure, publicProcedure } from "../trpc";
@@ -7,6 +7,78 @@ import { config } from "@/config";
 import { cookies } from "next/headers";
 
 export const authRouter = createRouter({
+  register: publicProcedure
+    .input(registerSchema)
+    .mutation(async ({ input, ctx }) => {
+      const { email, password } = input;
+      const user = await ctx.db.user.findUnique({ where: { email } });
+
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        });
+      }
+
+      const createUserPassword = await argon.hash(password);
+
+      await ctx.db.user.update({
+        where: { id: user.id },
+        data: {
+          password: createUserPassword,
+        },
+      });
+
+      const secrets = config.env.secrets;
+      const duration = config.duration;
+
+      //JWT
+      const tokenPayload = {
+        id: user.id,
+        role: user.role,
+        status: user.status,
+      };
+      const accessToken = signJwt(
+        tokenPayload,
+        secrets.accessSecret,
+        duration.accessTokenExp,
+      );
+      const refreshPayload = {
+        id: user.id,
+      };
+      const refreshToken = signJwt(
+        refreshPayload,
+        secrets.refreshSecret,
+        duration.refreshTokenExp,
+      );
+      const authPayload = {
+        accessToken,
+        refreshToken,
+        id: user.id,
+        role: user.role,
+        status: user.status,
+      };
+      const authToken = signJwt(
+        authPayload,
+        secrets.authSecret,
+        duration.authTokenExp,
+      );
+
+      // Set the authToken cookie
+      cookies().set("authToken", authToken, {
+        maxAge: duration.authTokenExp,
+      });
+
+      return {
+        accessToken,
+        refreshToken,
+        authToken,
+        userId: user.id,
+        userRole: user.role,
+        userStatus: user.status,
+        message: "Registration successful",
+      };
+    }),
   login: publicProcedure.input(loginSchema).mutation(async ({ input, ctx }) => {
     const { email, password } = input;
     const user = await ctx.db.user.findUnique({ where: { email } });
@@ -28,7 +100,6 @@ export const authRouter = createRouter({
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "Invalid credentials",
-     
       });
     }
 
@@ -64,12 +135,10 @@ export const authRouter = createRouter({
       duration.authTokenExp,
     );
 
-    
-
     // Set the authToken cookie
     cookies().set("authToken", authToken, {
-        maxAge: duration.authTokenExp,
-      });
+      maxAge: duration.authTokenExp,
+    });
 
     return {
       accessToken,
@@ -82,11 +151,10 @@ export const authRouter = createRouter({
     };
   }),
 
-  logout: protectedProcedure
-    .mutation(async () => {
-      cookies().delete("authToken");
-      return {
-        message: "Logout successful",
-      };
-    }),
+  logout: protectedProcedure.mutation(async () => {
+    cookies().delete("authToken");
+    return {
+      message: "Logout successful",
+    };
+  }),
 });

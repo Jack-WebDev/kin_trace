@@ -51,7 +51,7 @@ export function FormInput(props: FormInputProps) {
           <Input
             type={type ? type : "text"}
             contentEditable="true"
-            className="bg-transparent dark:bg-inputBg text-textColor  placeholder:textColorLight border border-borderColor h-12"
+            className="rounded-xl hover:border-primary"
             placeholder={placeholder ? placeholder : ""}
             disabled={disabled ? true : false}
             {...field}
@@ -61,7 +61,7 @@ export function FormInput(props: FormInputProps) {
 
           <FormMessage className="text-xs" />
           {description && (
-            <FormDescription className="text-xs font-semibold text-[#845adf]">
+            <FormDescription className="text-xs font-semibold text-primary">
               {description}
             </FormDescription>
           )}
