@@ -8,30 +8,68 @@ datasource db {
 }
 
 model User {
-    id             String        @id @default(uuid())
+    id             String         @id @default(cuid())
     name           String
     surname        String
-    email          String        @unique
+    email          String         @unique
     password       String
     idNumber       String
     address        String
     city           String
     zipCode        String
-    province       Province      @default(Gauteng)
+    province       Province       @default(Gauteng)
     dob            String
-    maritalStatus  MaritalStatus @default(Single)
-    gender         Gender        @default(Non_Binary)
-    ethnicity      Ethnicity     @default(Black)
-    employeeType   EmployeeType  @default(Contract)
-    ndtEmail       String        @unique
-    contactNumber  String        @unique
+    maritalStatus  MaritalStatus  @default(Single)
+    gender         Gender         @default(Non_Binary)
+    ethnicity      Ethnicity      @default(Black)
+    employeeType   EmployeeType   @default(Contract)
+    ndtEmail       String         @unique
+    contactNumber  String         @unique
     position       String
+    departmentId   String
+    department     Department     @relation(fields: [departmentId], references: [id])
     startDate      DateTime
     officeLocation String
-    role           UserRole      @default(Employee)
-    status         UserStatus    @default(Active)
-    createdAt      DateTime      @default(now())
-    updatedAt      DateTime      @updatedAt
+    role           UserRole       @default(Employee)
+    status         UserStatus     @default(Active)
+    createdAt      DateTime       @default(now())
+    updatedAt      DateTime       @updatedAt
+    UserDocument   UserDocument[]
+}
+
+model Department {
+    id        String    @id @default(cuid())
+    name      String
+    createdAt DateTime  @default(now())
+    Project   Project[]
+    User      User[]
+}
+
+model Project {
+    id           String     @id @default(cuid())
+    name         String
+    client       String
+    manager      String
+    description  String
+    teamMembers  String[]
+    department   Department @relation(fields: [departmentId], references: [id])
+    createdAt    DateTime   @default(now())
+    departmentId String
+}
+
+model OTP {
+    id         String   @id @default(cuid())
+    userId     String
+    code       String
+    expiryDate DateTime
+    createdAt  DateTime @default(now())
+}
+
+model UserDocument {
+    id       String @id @default(cuid())
+    userId   String
+    document String
+    User     User   @relation(fields: [userId], references: [id])
 }
 
 enum Province {
