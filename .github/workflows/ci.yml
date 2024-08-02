@@ -14,9 +14,9 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: kin-trace_dev
+          POSTGRES_USER: ${{ secrets.DATABASE_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
         ports:
           - 5432:5432
         options: >-
@@ -55,14 +55,18 @@ jobs:
 
       - name: Apply Prisma Migrations
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/kin-trace_dev
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: yarn prisma migrate deploy
 
       - name: Lint code
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: yarn lint
 
       - name: Check TypeScript types
         run: yarn typecheck
 
       - name: Build project
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: yarn build
