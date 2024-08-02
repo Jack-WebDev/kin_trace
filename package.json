@@ -12,6 +12,7 @@
     "seed": "npx prisma db seed ",
     "dev": "next dev",
     "postinstall": "prisma generate",
+    "typecheck": "tsc --noEmit",
     "lint": "next lint",
     "start": "next start"
   },
